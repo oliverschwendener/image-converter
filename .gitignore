@@ -1,3 +1,9 @@
+dist-main
+dist-preload
+dist-renderer
+release
+coverage
+
 # Logs
 logs
 *.log
