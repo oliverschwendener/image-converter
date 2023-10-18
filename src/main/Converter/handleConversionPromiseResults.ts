@@ -8,7 +8,7 @@ export const handleConversionPromiseResults = (promiseResults: PromiseSettledRes
         }
 
         if (promiseResult.status === "rejected") {
-            console.log(`Failed to convert: ${promiseResult.reason}`);
+            console.error(`Failed to convert: ${promiseResult.reason}`);
         }
     }
 };

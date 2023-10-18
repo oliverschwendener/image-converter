@@ -5,4 +5,5 @@ export type ConversionOptions = {
     fitInto: number;
     quality: number;
     format: "JPEG" | "PNG";
+    openFolderAfterConversion: boolean;
 };

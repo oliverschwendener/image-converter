@@ -1,6 +1,6 @@
 import type { ConversionOptions } from "@common/ConversionOptions";
 import type { SelectFolderResult } from "@common/SelectFolderResult";
-import { BrowserWindow, app, dialog, ipcMain, nativeTheme } from "electron";
+import { BrowserWindow, app, dialog, ipcMain, nativeTheme, shell } from "electron";
 import { join } from "path";
 import { convertImages } from "./Converter";
 
@@ -9,7 +9,7 @@ import { convertImages } from "./Converter";
 
     const browserWindow = new BrowserWindow({
         width: 350,
-        height: 600,
+        height: 680,
         resizable: false,
         autoHideMenuBar: true,
         webPreferences: {
@@ -31,9 +31,13 @@ import { convertImages } from "./Converter";
         };
     });
 
-    ipcMain.handle("convertImages", (_, { conversionOptions }: { conversionOptions: ConversionOptions }) =>
-        convertImages(conversionOptions),
-    );
+    ipcMain.handle("convertImages", async (_, { conversionOptions }: { conversionOptions: ConversionOptions }) => {
+        await convertImages(conversionOptions);
+
+        if (conversionOptions.openFolderAfterConversion) {
+            await shell.openPath(conversionOptions.destinationFolderPath);
+        }
+    });
 
     nativeTheme.addListener("updated", () => browserWindow.webContents.send("nativeThemeChanged"));
 })();

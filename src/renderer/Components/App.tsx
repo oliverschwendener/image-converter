@@ -37,6 +37,7 @@ export const App = () => {
     const [fitInto, setFitInto] = useState<number>(800);
     const [format, setFormat] = useState<ConversionOptions["format"]>("JPEG");
     const [quality, setQuality] = useState<number>(80);
+    const [openFolderAfterConversion, setOpenFolderAfterConversion] = useState<boolean>(false);
     const [conversionStatus, setConversionStatus] = useState<ConversionStatus>({ conversionInProgress: false });
 
     useEffect(() => {
@@ -76,6 +77,7 @@ export const App = () => {
                 fitInto,
                 format,
                 quality,
+                openFolderAfterConversion,
             });
         } catch (error) {
             console.error(error);
@@ -189,6 +191,13 @@ export const App = () => {
                             />
                         </Field>
                     ) : null}
+
+                    <Field label="Open folder after conversion">
+                        <Switch
+                            checked={openFolderAfterConversion}
+                            onChange={(_, { checked }) => setOpenFolderAfterConversion(checked)}
+                        />
+                    </Field>
 
                     <Button
                         disabled={!sourceFolderPath || !destinationFolderPath}
