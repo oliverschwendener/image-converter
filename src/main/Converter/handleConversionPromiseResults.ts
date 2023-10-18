@@ -3,8 +3,8 @@ import { FileConversionResult } from "./FileConversionResult";
 export const handleConversionPromiseResults = (promiseResults: PromiseSettledResult<FileConversionResult>[]) => {
     for (const promiseResult of promiseResults) {
         if (promiseResult.status === "fulfilled") {
-            const { inFilePath, outFilePath } = promiseResult.value;
-            console.log(`${inFilePath} successfully converted to ${outFilePath}`);
+            const { sourceFilePath, destinationFilePath } = promiseResult.value;
+            console.log(`${sourceFilePath} successfully converted to ${destinationFilePath}`);
         }
 
         if (promiseResult.status === "rejected") {

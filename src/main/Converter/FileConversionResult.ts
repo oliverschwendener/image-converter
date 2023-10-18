@@ -1,4 +1,4 @@
 export type FileConversionResult = {
-    inFilePath: string;
-    outFilePath: string;
+    sourceFilePath: string;
+    destinationFilePath: string;
 };

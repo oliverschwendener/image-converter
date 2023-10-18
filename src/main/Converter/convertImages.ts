@@ -2,7 +2,7 @@ import { ConversionOptions } from "./ConversionOptions";
 import { convertImage } from "./convertImage";
 import { ensureFolderExists } from "./ensureFolderExists";
 import { getFilesPathsFromFolderPath } from "./getFilesPathsFromFolderPath";
-import { getOutFilePathFromInFilePath } from "./getOutFilePathFromInFilePath";
+import { getDestinationFilePathFromSourceFilePath } from "./getDestinationFilePathFromSourceFilePath";
 import { handleConversionPromiseResults } from "./handleConversionPromiseResults";
 
 export const convertImages = async ({
@@ -12,12 +12,12 @@ export const convertImages = async ({
 }: ConversionOptions): Promise<void> => {
     await ensureFolderExists(destinationFolderPath);
 
-    const inFilePaths = await getFilesPathsFromFolderPath(sourceFolderPath);
+    const sourceFilePaths = await getFilesPathsFromFolderPath(sourceFolderPath);
 
-    const promises = inFilePaths.map((inFilePath) =>
+    const promises = sourceFilePaths.map((sourceFilePath) =>
         convertImage({
-            inFilePath,
-            outFilePath: getOutFilePathFromInFilePath(inFilePath, destinationFolderPath),
+            sourceFilePath,
+            destinationFilePath: getDestinationFilePathFromSourceFilePath(sourceFilePath, destinationFolderPath),
             fitInto,
         }),
     );
