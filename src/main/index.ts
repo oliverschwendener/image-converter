@@ -1,5 +1,5 @@
-import { ConversionOptions } from "@common/ConversionOptions";
-import { SelectFolderResult } from "@common/SelectFolderResult";
+import type { ConversionOptions } from "@common/ConversionOptions";
+import type { SelectFolderResult } from "@common/SelectFolderResult";
 import { BrowserWindow, app, dialog, ipcMain, nativeTheme } from "electron";
 import { join } from "path";
 import { convertImages } from "./Converter";
