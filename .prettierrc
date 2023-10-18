@@ -1,6 +1,6 @@
 {
+    "plugins": ["prettier-plugin-organize-imports"],
     "printWidth": 120,
     "singleQuote": false,
-    "tabWidth": 4,
-    "plugins": ["prettier-plugin-organize-imports"]
+    "tabWidth": 4
 }
