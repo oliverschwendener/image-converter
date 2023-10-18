@@ -1,8 +1,8 @@
 import { ConversionOptions } from "./ConversionOptions";
 import { convertImage } from "./convertImage";
 import { ensureFolderExists } from "./ensureFolderExists";
-import { getFilesPathsFromFolderPath } from "./getFilesPathsFromFolderPath";
 import { getDestinationFilePathFromSourceFilePath } from "./getDestinationFilePathFromSourceFilePath";
+import { getFilesPathsFromFolderPath } from "./getFilesPathsFromFolderPath";
 import { handleConversionPromiseResults } from "./handleConversionPromiseResults";
 
 export const convertImages = async ({
