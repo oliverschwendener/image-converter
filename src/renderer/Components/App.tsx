@@ -6,6 +6,7 @@ import {
     Input,
     Option,
     ProgressBar,
+    Slider,
     Switch,
     webDarkTheme,
     webLightTheme,
@@ -82,25 +83,22 @@ export const App = () => {
         }
     };
 
-    const serializeQuality = (value: string) => {
-        let numericalValue = Number(value);
-
-        if (numericalValue < 0) {
-            numericalValue = 0;
+    const serializeQuality = (value: number) => {
+        if (value < 0) {
+            value = 0;
         }
 
-        if (numericalValue > 100) {
-            numericalValue = 100;
+        if (value > 100) {
+            value = 100;
         }
 
-        return numericalValue;
+        return value;
     };
 
     return (
         <FluentProvider theme={ThemeMapping[themeName]} style={{ height: "100vh" }}>
             <div
                 style={{
-                    alignItems: "center",
                     display: "flex",
                     height: "100%",
                     width: "100%",
@@ -112,7 +110,13 @@ export const App = () => {
                 <div style={{ display: "flex", flexDirection: "column", gap: 20, width: "100%" }}>
                     <Field label="Source folder path">
                         <Input
+                            readOnly
                             value={sourceFolderPath ?? ""}
+                            onClick={() => {
+                                if (!sourceFolderPath) {
+                                    selectSourceFolder();
+                                }
+                            }}
                             contentAfter={
                                 <Button
                                     appearance="transparent"
@@ -127,6 +131,11 @@ export const App = () => {
                         <Input
                             readOnly
                             value={destinationFolderPath ?? ""}
+                            onClick={() => {
+                                if (!destinationFolderPath) {
+                                    selectDestinationFolder();
+                                }
+                            }}
                             contentAfter={
                                 <Button
                                     onClick={() => selectDestinationFolder()}
@@ -137,19 +146,7 @@ export const App = () => {
                             }
                         />
                     </Field>
-                    <Field label="Resize">
-                        <Switch checked={shouldResize} onChange={(_, { checked }) => setShouldResize(checked)} />
-                    </Field>
-                    {}
-                    <Field label="Fit into">
-                        <Input
-                            disabled={!shouldResize}
-                            type="number"
-                            min={0}
-                            value={`${fitInto}`}
-                            onChange={(_, { value }) => setFitInto(Number(value))}
-                        />
-                    </Field>
+
                     <Field label="Format">
                         <Dropdown
                             value={format}
@@ -163,16 +160,34 @@ export const App = () => {
                             </Option>
                         </Dropdown>
                     </Field>
-                    <Field label="Quality (value between 0-100)">
-                        <Input
-                            disabled={format !== "JPEG"}
-                            type="number"
-                            min={0}
-                            max={100}
-                            value={`${quality}`}
-                            onChange={(_, { value }) => setQuality(serializeQuality(value))}
-                        />
+
+                    <Field label="Resize">
+                        <Switch checked={shouldResize} onChange={(_, { checked }) => setShouldResize(checked)} />
                     </Field>
+
+                    {shouldResize ? (
+                        <Field label="Fit into">
+                            <Input
+                                disabled={!shouldResize}
+                                type="number"
+                                min={0}
+                                value={`${fitInto}`}
+                                onChange={(_, { value }) => setFitInto(Number(value))}
+                            />
+                        </Field>
+                    ) : null}
+
+                    {format === "JPEG" ? (
+                        <Field label={`Quality: ${quality}`}>
+                            <Slider
+                                type="number"
+                                min={0}
+                                max={100}
+                                value={quality}
+                                onChange={(_, { value }) => setQuality(serializeQuality(value))}
+                            />
+                        </Field>
+                    ) : null}
 
                     <Button
                         disabled={!sourceFolderPath || !destinationFolderPath}
