@@ -1,5 +1,8 @@
-import { BrowserWindow, app, ipcMain, nativeTheme } from "electron";
+import { ConversionOptions } from "@common/ConversionOptions";
+import { SelectFolderResult } from "@common/SelectFolderResult";
+import { BrowserWindow, app, dialog, ipcMain, nativeTheme } from "electron";
 import { join } from "path";
+import { convertImages } from "./Converter";
 
 (async () => {
     await app.whenReady();
@@ -16,6 +19,18 @@ import { join } from "path";
         : browserWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
 
     ipcMain.on("themeShouldUseDarkColors", (event) => (event.returnValue = nativeTheme.shouldUseDarkColors));
+
+    ipcMain.handle("selectFolder", async (): Promise<SelectFolderResult> => {
+        const { filePaths } = await dialog.showOpenDialog(browserWindow, { properties: ["openDirectory"] });
+
+        return {
+            folderPath: filePaths.length ? filePaths[0] : undefined,
+        };
+    });
+
+    ipcMain.handle("convertImages", (_, { conversionOptions }: { conversionOptions: ConversionOptions }) =>
+        convertImages(conversionOptions),
+    );
 
     nativeTheme.addListener("updated", () => browserWindow.webContents.send("nativeThemeChanged"));
 })();
