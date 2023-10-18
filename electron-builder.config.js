@@ -3,8 +3,8 @@
  * @see https://www.electron.build/configuration/configuration
  */
 const config = {
-    appId: "com.electron.fluentui",
-    productName: "Electron Fluent UI",
+    appId: "com.electron.imageconverter",
+    productName: "Image Converter",
     directories: {
         output: "release",
         buildResources: "build",
