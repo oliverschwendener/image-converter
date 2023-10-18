@@ -11,6 +11,7 @@ export const convertImages = async ({
     shouldResize,
     quality,
     fitInto,
+    format,
 }: ConversionOptions): Promise<void> => {
     await ensureFolderExists(destinationFolderPath);
 
@@ -19,10 +20,15 @@ export const convertImages = async ({
     const promises = sourceFilePaths.map((sourceFilePath) =>
         convertImage({
             sourceFilePath,
-            destinationFilePath: getDestinationFilePathFromSourceFilePath(sourceFilePath, destinationFolderPath),
+            destinationFilePath: getDestinationFilePathFromSourceFilePath({
+                sourceFilePath,
+                destinationFolderPath,
+                format,
+            }),
             shouldResize,
             quality,
             fitInto,
+            format,
         }),
     );
 

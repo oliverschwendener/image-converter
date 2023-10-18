@@ -1,15 +1,17 @@
 import {
     Button,
+    Dropdown,
     Field,
     FluentProvider,
     Input,
+    Option,
     ProgressBar,
     Switch,
     webDarkTheme,
     webLightTheme,
     type Theme,
 } from "@fluentui/react-components";
-import { FolderRegular, PlayRegular } from "@fluentui/react-icons";
+import { FolderRegular } from "@fluentui/react-icons";
 import { useEffect, useState } from "react";
 
 type ThemeName = "Light" | "Dark";
@@ -31,6 +33,7 @@ export const App = () => {
     const [destinationFolderPath, setDestinationFolderPath] = useState<string | undefined>(undefined);
     const [shouldResize, setShouldResize] = useState<boolean>(false);
     const [fitInto, setFitInto] = useState<number>(800);
+    const [format, setFormat] = useState<"JPEG" | "PNG">("JPEG");
     const [quality, setQuality] = useState<number>(80);
     const [conversionStatus, setConversionStatus] = useState<ConversionStatus>({ conversionInProgress: false });
 
@@ -69,6 +72,7 @@ export const App = () => {
                 destinationFolderPath,
                 shouldResize,
                 fitInto,
+                format,
                 quality,
             });
         } catch (error) {
@@ -146,8 +150,22 @@ export const App = () => {
                             onChange={(_, { value }) => setFitInto(Number(value))}
                         />
                     </Field>
+                    <Field label="Format">
+                        <Dropdown
+                            value={format}
+                            onOptionSelect={(_, { optionValue }) => setFormat(optionValue as "JPEG" | "PNG")}
+                        >
+                            <Option text="JPEG" value="JPEG">
+                                JPEG
+                            </Option>
+                            <Option text="PNG" value="PNG">
+                                PNG
+                            </Option>
+                        </Dropdown>
+                    </Field>
                     <Field label="Quality (value between 0-100)">
                         <Input
+                            disabled={format !== "JPEG"}
                             type="number"
                             min={0}
                             max={100}
@@ -155,14 +173,13 @@ export const App = () => {
                             onChange={(_, { value }) => setQuality(serializeQuality(value))}
                         />
                     </Field>
+
                     <Button
                         disabled={!sourceFolderPath || !destinationFolderPath}
-                        icon={<PlayRegular />}
-                        iconPosition="after"
                         size="large"
                         onClick={() => convertImages()}
                     >
-                        Convert to JPG
+                        Convert to {format}
                     </Button>
 
                     {conversionStatus.conversionInProgress ? (

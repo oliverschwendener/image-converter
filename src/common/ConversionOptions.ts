@@ -4,4 +4,5 @@ export type ConversionOptions = {
     shouldResize: boolean;
     fitInto: number;
     quality: number;
+    format: "JPEG" | "PNG";
 };

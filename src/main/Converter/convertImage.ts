@@ -9,12 +9,14 @@ export const convertImage = async ({
     shouldResize,
     quality,
     fitInto,
+    format,
 }: {
     sourceFilePath: string;
     destinationFilePath: string;
     shouldResize: boolean;
     quality: number;
     fitInto: number;
+    format: "JPEG" | "PNG";
 }): Promise<FileConversionResult> => {
     let currentNativeImage = nativeImage.createFromPath(sourceFilePath);
     const aspectRatio = currentNativeImage.getAspectRatio();
@@ -31,7 +33,9 @@ export const convertImage = async ({
         quality = 100;
     }
 
-    await writeBufferToFile(currentNativeImage.toJPEG(quality), destinationFilePath);
+    const buffer = format === "JPEG" ? currentNativeImage.toJPEG(quality) : currentNativeImage.toPNG();
+
+    await writeBufferToFile(buffer, destinationFilePath);
 
     return { sourceFilePath, destinationFilePath };
 };
