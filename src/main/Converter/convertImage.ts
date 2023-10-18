@@ -1,3 +1,4 @@
+import type { ConversionOptions } from "@common/ConversionOptions";
 import { nativeImage } from "electron";
 import type { FileConversionResult } from "./FileConversionResult";
 import { fitImageSizeInto } from "./fitImageSizeInto";
@@ -16,7 +17,7 @@ export const convertImage = async ({
     shouldResize: boolean;
     quality: number;
     fitInto: number;
-    format: "JPEG" | "PNG";
+    format: ConversionOptions["format"];
 }): Promise<FileConversionResult> => {
     let currentNativeImage = nativeImage.createFromPath(sourceFilePath);
     const aspectRatio = currentNativeImage.getAspectRatio();

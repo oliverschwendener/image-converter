@@ -1,3 +1,4 @@
+import type { ConversionOptions } from "@common/ConversionOptions";
 import { join, parse } from "path";
 
 export const getDestinationFilePathFromSourceFilePath = ({
@@ -7,5 +8,5 @@ export const getDestinationFilePathFromSourceFilePath = ({
 }: {
     sourceFilePath: string;
     destinationFolderPath: string;
-    format: "JPEG" | "PNG";
+    format: ConversionOptions["format"];
 }): string => join(destinationFolderPath, `${parse(sourceFilePath).name}.${format.toLowerCase()}`);

@@ -1,3 +1,4 @@
+import type { ConversionOptions } from "@common/ConversionOptions";
 import {
     Button,
     Dropdown,
@@ -34,7 +35,7 @@ export const App = () => {
     const [destinationFolderPath, setDestinationFolderPath] = useState<string | undefined>(undefined);
     const [shouldResize, setShouldResize] = useState<boolean>(false);
     const [fitInto, setFitInto] = useState<number>(800);
-    const [format, setFormat] = useState<"JPEG" | "PNG">("JPEG");
+    const [format, setFormat] = useState<ConversionOptions["format"]>("JPEG");
     const [quality, setQuality] = useState<number>(80);
     const [conversionStatus, setConversionStatus] = useState<ConversionStatus>({ conversionInProgress: false });
 
