@@ -8,6 +8,9 @@ import { convertImages } from "./Converter";
     await app.whenReady();
 
     const browserWindow = new BrowserWindow({
+        width: 350,
+        height: 600,
+        resizable: false,
         autoHideMenuBar: true,
         webPreferences: {
             preload: join(__dirname, "..", "dist-preload", "index.js"),
